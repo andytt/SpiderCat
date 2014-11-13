@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "lazy.js": "^0.3.2",
+    "oauth": "^0.9.12",
+    "restler": "^3.2.2",
+    "twitter-js-client": "0.0.5"
+  }
+}
