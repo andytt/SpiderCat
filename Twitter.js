@@ -1,26 +1,19 @@
-var fs = require('fs'),
-    url = require('url'),
+var url = require('url'),
     querystring = require('querystring'),
     http = require('restler'),
     Lazy = require('lazy.js'),
     Twitter = require('twitter-js-client').Twitter,
-    envFileName = '.env.json';
-
-if (!fs.existsSync(envFileName)) {
-    console.log('Environment file not exists.');
-    process.exit(1);
-}
+    configs = require('./configs.js');
 
 if (process.argv.length < 3) {
     console.log('You must provide a Twitter screen name.');
     process.exit(1);
 }
 
-var env = JSON.parse(fs.readFileSync(envFileName, 'utf8')),
-    client = new Twitter({
-        consumerKey: env.twitter.key,
-        consumerSecret: env.twitter.secret
-    });
+var client = new Twitter({
+    consumerKey: configs.key,
+    consumerSecret: configs.secret
+});
 
 var screenName = process.argv[2],
     error = function (err) {
