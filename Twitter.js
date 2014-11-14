@@ -2,7 +2,7 @@ var fs = require('fs'),
     url = require('url'),
     querystring = require('querystring'),
     http = require('restler'),
-    Lazy = require('Lazy.js'),
+    Lazy = require('lazy.js'),
     Twitter = require('twitter-js-client').Twitter,
     envFileName = '.env.json';
 
