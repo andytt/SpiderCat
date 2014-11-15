@@ -1,27 +1,22 @@
 (function () {
-    var configs = {},
-        fs      = require('fs'),
-        Lazy    = require('lazy.js');
-
+    const envFileName = '.env.json';
     const validators = {
         Twitter: ['key', 'secret'],
         URL: ['baseurl', 'URI']
     };
 
-    const envFileName = '.env.json';
+    var Lazy = require('lazy.js');
 
-    if (!fs.existsSync(envFileName)) {
-        console.log('Environment file not exists.');
+    try {
+        var envConfigs = require('./' + envFileName);
+    } catch (e) {
+        console.log('Environment file', envFileName, 'not exists.');
         process.exit(1);
     }
 
-    var envConfigs = JSON.parse(fs.readFileSync(envFileName, 'utf8'));
-
     validateConfigs(envConfigs)
 
-    configs = envConfigs;
-
-    module.exports = configs;
+    module.exports = envConfigs;
 
     function validateConfigs(envConfigs)
     {
