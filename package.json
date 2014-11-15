@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "async": "^0.9.0",
     "lazy.js": "^0.3.2",
     "oauth": "^0.9.12",
     "restler": "^3.2.2",
