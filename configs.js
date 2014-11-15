@@ -4,12 +4,11 @@
         Lazy    = require('lazy.js');
 
     const validators = {
-        Twitter: ['key', 'secret']
+        Twitter: ['key', 'secret'],
+        URL: ['baseurl', 'URI']
     };
 
-    const envFileName = '.env.json',
-        currentFileName = Lazy(process.argv[1]).split('/').last(),
-        currentSpiderName = Lazy(currentFileName).split('.').first();
+    const envFileName = '.env.json';
 
     if (!fs.existsSync(envFileName)) {
         console.log('Environment file not exists.');
@@ -20,18 +19,23 @@
 
     validateConfigs(envConfigs)
 
-    configs = envConfigs[currentSpiderName];
+    configs = envConfigs;
 
     module.exports = configs;
 
     function validateConfigs(envConfigs)
     {
-        var currentSpiderConfigs = Lazy(envConfigs[currentSpiderName]).keys(),
-            validatorsRemain = Lazy(validators[currentSpiderName]).without(currentSpiderConfigs);
+        Lazy(validators).keys().each(function (key) {
+            if (!envConfigs[key]) {
+                console.log('You have to provide', key, 'in', envFileName);
+                process.exit(1);
+            }
 
-        if (validatorsRemain.size()) {
-            console.log('You have to provide these configs:', validatorsRemain.join(', '), 'in', currentSpiderName);
-            process.exit(1);
-        }
+            var validatorsRemained = Lazy(validators[key]).without(Lazy(envConfigs[key]).keys());
+            if (validatorsRemained.size()) {
+                console.log('You have to provide', validatorsRemained.join(', '), 'in', key);
+                process.exit(1);
+            }
+        });
     }
 })();
